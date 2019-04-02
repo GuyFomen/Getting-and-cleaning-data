@@ -1,0 +1,54 @@
+---
+title: "Code Book"
+author: "Guy Merlin Fomen"
+date: "2 avril 2019"
+output: pdf_document
+---
+Feature Selection 
+=================
+
+The features selected for this database come from the accelerometer and gyroscope 3-axial. 
+
+The acceleration signal was then separated into body and gravity acceleration signals using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+
+Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals. Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm. 
+
+Finally a Fast Fourier Transform (FFT) was applied to some of these signals(Note the 'f' to indicate frequency domain signals). 
+
+These signals were used to estimate variables of the feature vector for each pattern:
+
+- XYZ is used to denote 3-axial signals in the X, Y and Z directions.
+
+- id: subject id 
+
+1,2,...30
+
+- activity: 
+
+1 WALKING
+2 WALKING_UPSTAIRS
+3 WALKING_DOWNSTAIRS
+4 SITTING
+5 STANDING
+6 LAYING
+
+The other variable name are built buy using the following abbreviation:
+
+- t: time
+- body
+- acc: acceleration
+- gravity
+- Jerk: Jerks signal
+- gyro: Gyroscope
+- f: fast fourier transformatio
+- mag: magnitude
+- std: standard deviation
+- mean
+- each axis is labeled by x y or z
+
+##Note: the only entire name use to name variabe are body, gravity jerk and mean, for the rest use the first three or only the first letter
+
+# example of name
+
+- tbodyaccstdx: time body acceleration standard deviation on axis x
+- fbodyAccjerkmagmeany: fast fourier transformation body accelartion jerk magnitude mean on y axis

@@ -1,0 +1,73 @@
+---
+title: "README"
+author: "Guy Merlin Fomen"
+date: "2 avril 2019"
+output: pdf_document
+---
+==================================================================
+
+## Human Activity Recognition Using Smartphones Dataset
+
+==================================================================
+
+## Scripts Description
+setwd(): setting the working directory
+
+library(dplyr) : loading the dply package
+
+## Merging train's Data
+# loading data into vectors
+The steps of this part are the same as of the test part
+
+- Xtrain <- read.table("./UCI HAR Dataset/train/X_train.txt") :loadingthe X_train
+- subjecttrain <- read.table("./UCI HADataset/train/subject_train.txt")
+- ytrain <- read.table("./UCI HAR Dataset/train/y_train.txt")
+- mergetrain <- cbind(subjecttrain,ytrain,Xtrain)
+- str(mergetrain): having a view of the data
+
+## Merging test's Data
+# loading Data
+- Xtest <- read.table("./UCI HAR Dataset/test/X_test.txt")
+- subjecttest <- read.table("./UCI HAR Dataset/test/subject_test.txt")
+- ytest <- read.table("./UCI HAR Dataset/test/y_test.txt")
+- mergetest <- cbind(subjecttest, ytest, Xtest)
+str(mergetest) # to check 
+
+# merging all in one
+mergeData <- rbind(mergetest, mergetrain)
+
+str(mergeData)
+
+View(mergeData) # have a view 
+
+# feature.txt and changing the columns names
+
+In this section we start by loading the features into a vector named feature, then we identify the vectors with "mean" and "std" as name component: 
+- feature <- read.table("./UCI HAR Dataset/features.txt")
+- v <- grep("std",feature$V2)
+- w <- grep("mean",feature$V2)
+ after that we change the columns using the name collected previously
+- col_names <- c("id", "activity",as.character(feature$V2[c(v,w)]))
+- mergeData2 <-mergeData[,c(1,2,v,w)]
+- colnames(mergeData2) <- col_names
+
+# activity_labels and the activities'columns
+Here we collect the activities names in one vector:
+-activity_labels <- read.table("./UCI HAR Dataset/activity_labels.txt")
+
+and we match them with the number in the activity column
+- mergeData2$activity <- sapply(mergeData2$activity,function(x) activity_labels$V2[x])
+
+# removing special charcters in columns'names
+- t <- sub("\\()","",colnames(mergeData2)) : removing the parantheses at the end of variable's name
+- colnames(mergeData2)<- tolower(gsub("-","",t)): removing the underscore in the variable's name and putting all in lower case
+
+## first Tidy Data
+- View(mergeData2): to view the data in a table
+
+## independent Tidy data with grouped id activities and averages' columns
+
+TidyData <- mergeData2%>%group_by(id, activity)%>%summarise_each(funs = mean,colnames(mergeData2)[c(-1,-2)]): a pipeline to reorganize the data
+- View(TidyData)
+- write.table(mergeData2, row.names = FALSE): to be submitted
+
